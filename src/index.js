@@ -1,18 +1,25 @@
 import React from 'react';
 import { render } from 'react-dom';
+import routes from './routes';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
-import {getCountries} from "./actions/actions-countries"
-import DevTools from "./DevTools"
+import Navigation from './presentational/navigation.component';
+import Home from './presentational/home.component';
+import Contact from './presentational/contact.component';
+import NotFound from './presentational/not-found.component';
+import './index.css'
 
 render(
     <Provider store={store}>
-        <div>
-            <h1>Inicjalizacja projektu</h1>
-            <DevTools/>        </div>
-        
+        <Router routes={routes}>
+            <Navigation/>
+            <Switch> 
+                <Route exact path='/' component={Home}/>                 
+                <Route path='/contact' component={Contact}/>
+                <Route path='*' component={NotFound}/>   
+            </Switch>
+        </Router>
     </Provider>,
     document.getElementById('root')
 );
-
-store.dispatch(getCountries())
